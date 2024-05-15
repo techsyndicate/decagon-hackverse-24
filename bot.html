@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+    <style>
+        @font-face {
+            font-family: BitxMap;
+            src: url('public/BitxMapFonttfb.ttf');
+        }
+        @font-face {
+            font-family: monument;
+            src: url('public/MonumentExtended-Regular.otf');
+        }
+        @font-face {
+            font-family: Inter;
+            src: url('public/Inter.ttc');
+        }
+        * {box-sizing: border-box; cursor: none;}
+        body {
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+            min-width: 100vw;
+            min-height: 100vh;
+            font-family: BitxMap;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        p {
+            margin: 0;
+            padding: 0;
+        }
+        .icon {
+            height: 1.8vw;
+            width: 1.8vw;
+        }
+        .navbar {
+            border: 1px solid black;
+            display: flex;
+            font-family: BitxMap;
+            gap: 3vw;
+            align-items: center;
+            padding: 0.5vw 0.8vw 0.5vw 0.8vw;
+            top: 3vh;
+            left: 2vw;
+            position: fixed;
+            width: max-content;
+            background-color: #fbfbfb;
+            z-index: -1;
+        }
+        .welcomeNav {
+            margin-left: 12vw;
+        }
+        .cursor {
+            width: 20px;
+            height: 20px;
+            background-color: black;
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        .container2 {
+            display: flex;
+            width: 90vw;
+            height: 69vh;
+            gap: 1vw;
+        }
+        .left {
+            border: 1px solid black;
+            border-radius: 2.3vw;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .right {
+            flex: 1;
+            border-radius: 2.3vw;
+            display: flex;
+            flex-direction: column;
+            gap: 1vw;
+        }
+        .sideNavItem {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: monument;
+            border: 1px solid black;
+            border-radius: 2.3vw;
+            font-size: 3vw;
+        }
+        .answerContainer {
+            flex: 1;
+            overflow: auto;
+        }
+        .inputContainer {
+            padding: 1vw 2vw 1.2vw 2vw;
+            border-top: 1px solid black;
+        }
+        .inputContainer input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-family: BitxMap;
+        }
+        .myQuestionContainer {
+            display: flex;
+            padding: 2.5vw 2vw 0px 0px;
+            justify-content: flex-end;
+        }
+        .yourAnswerContainer {
+            display: flex;
+            padding: 2.5vw 0vw 0px 1.9vw;
+            justify-content: flex-start;
+        }
+        .myQuestion {
+            border: 1px solid black;
+            border-radius: 2.3vw;
+            border-top-right-radius: 0px;
+            padding: 1vw;
+            font-size: 1.1vw;
+            width: 40%;
+            text-align: center;
+        }
+        .yourAnswer {
+            border: 1px solid black;
+            border-radius: 2.3vw;
+            border-top-left-radius: 0px;
+            padding: 1vw;
+            font-size: 1.1vw;
+            width: 60%;
+            text-align: center;
+            margin-bottom: 1.5vw;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="navbar">
+        <svg class="icon" id="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">
+            <rect id="topLeft" width="9" height="9" fill="currentColor"></rect>
+            <rect id="bottomLeft" y="18" width="9" height="9" fill="currentColor"> </rect>
+            <rect id="topRight" x="18" width="9" height="9" fill="currentColor"></rect>
+            <rect id="center" x="9" y="9" width="9" height="9" fill="currentColor"></rect>
+        </svg>
+        <a class="welcomeNav" onclick="window.location.href='/#welcome'">WELCOME</a>
+        <a onclick="window.location.href='/#about'">ABOUT</a>
+        <a onclick="window.location.href='/#projects'">PROJECTS</a>
+        <a onclick="window.location.href='/#contact'">CONTACT</a>
+    </div>
+    <div class="container">
+        <div class="container2">
+            <div class="left">
+                <div class="answerContainer" id="answerContainer">
+                    
+                </div>
+                <div class="inputContainer">
+                    <input placeholder="Enter your query:" id="query" autocomplete="off">
+                </div>
+            </div>
+            <div class="right">
+                <div class="sideNavItem" onclick="window.location.href = '/'">HOME</div>
+                <div class="sideNavItem" onclick="window.location.href = '/#contact'">CONTACT</div>
+                <div class="sideNavItem" onclick="window.location.href = '/#projects'">PROJECTS</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('mousemove', (e) => {
+            document.getElementById('cursor').style.top = `${e.clientY - 10}px`
+            document.getElementById('cursor').style.left = `${e.clientX - 10}px`
+        })
+        window.addEventListener('keyup', (e) => {
+            if (e.keyCode == 13) {
+                const finalQuestion = document.getElementById('query').value
+                var myQuestionContainer = document.createElement('div')
+                var myQuestion = document.createElement('div')
+                myQuestionContainer.className = 'myQuestionContainer'
+                myQuestion.className = 'myQuestion'
+                myQuestion.innerHTML = document.getElementById('query').value
+                myQuestionContainer.appendChild(myQuestion)
+                document.getElementById('answerContainer').appendChild(myQuestionContainer)
+                document.getElementById('query').value = ''
+                document.getElementById('answerContainer').scrollTop = document.getElementById('answerContainer').scrollHeight
+                askTheQuestion(`Your name is Davis Hunt. You are a frontend web developer, who creates mobile apps, websites and landing pages. You specialize in crafting pages tailored for music, sports and events, every page integrating SEO and proper mobile navigation. You implement "Pixel Perfect" principles and responsive design in your websites. You are comfortable with Three.JS, GSAP, RTK and GRAPHQL. Your projects include GoBoxBox, WeirdSnake, Blitz, etc. People can contact you on your instagram, github and linkedin, which can be found on the homepage. Based on this information, pretending you are Davis Hunt, answer this question in not more than 60 words, only answering what is asked: ${finalQuestion}`)
+                    .then(response => {
+                        var yourAnswerContainer= document.createElement('div')
+                        var yourAnswer = document.createElement('div')
+                        yourAnswerContainer.className = 'yourAnswerContainer'
+                        yourAnswer.className = 'yourAnswer'
+                        yourAnswer.innerHTML = response
+                        yourAnswerContainer.appendChild(yourAnswer)
+                        document.getElementById('answerContainer').appendChild(yourAnswerContainer)
+                        document.getElementById('answerContainer').scrollTop = document.getElementById('answerContainer').scrollHeight
+                    }).catch(err => {
+                        var yourAnswerContainer= document.createElement('div')
+                        var yourAnswer = document.createElement('div')
+                        yourAnswerContainer.className = 'yourAnswerContainer'
+                        yourAnswer.className = 'yourAnswer'
+                        yourAnswer.innerHTML = "Oops! An error occured. Please try again later."
+                        yourAnswerContainer.appendChild(yourAnswer)
+                        document.getElementById('answerContainer').appendChild(yourAnswerContainer)
+                        document.getElementById('answerContainer').scrollTop = document.getElementById('answerContainer').scrollHeight
+                    })  
+            }
+        })
+        const googleAPIKey = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=AIzaSyBPwy19Oy_lEAklRAN0zV_G8nDTswdEqcI"
+        function askTheQuestion(prompt) {
+            return new Promise((resolve, reject) => {
+                fetch(googleAPIKey, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        "contents": [{
+                            "parts": [{
+                                "text": prompt
+                            }]}
+                        ]})
+                })
+                .then(rawResponse => {
+                    if (!rawResponse.ok) {
+                        console.log('Network response was not ok');
+                    }
+                    return rawResponse.json();
+                })
+                .then(content => {
+                    console.log(content);
+                    if (content.candidates[0].finishReason == "MAX_TOKENS") {
+                        text.innerText = "The service is unavailable right now. Please try again after a minute or so.";
+                    }
+                    resolve(content.candidates[0].content.parts[0].text);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    reject(error);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

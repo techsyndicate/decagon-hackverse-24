@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>WeirdSnake</title>
+<script type="text/javascript" src="snake.js"></script>
+<style>@font-face {
+    font-family: BitxMap;
+    src: url('public/BitxMapFonttfb.ttf');
+}
+
+@font-face {
+    font-family: monument;
+    src: url('public/MonumentExtended-Regular.otf');
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('public/Inter.ttc');
+}
+
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.icon {
+    height: 1.8vw;
+    width: 1.8vw;
+}
+
+.navbar {
+    border: 1px solid black;
+    display: flex;
+    font-family: BitxMap;
+    gap: 3vw;
+    align-items: center;
+    padding: 0.5vw 0.8vw 0.5vw 0.8vw;
+    margin-top: 1.7vw;
+    margin-left: 2vw;
+    width: max-content;
+    background-color: #fbfbfb;
+}
+
+.welcomeNav {
+    margin-left: 12vw;
+}
+
+#viewport{
+    margin: 2vw;
+    width: 96vw;
+}
+.gameName{
+    font-family: bitxmap;
+    font-size: 5vw;
+    margin-left: 2vw;
+    margin-top: 2vw;
+}
+.cursor {
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+</style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="navbar">
+        <svg class="icon" id="cross" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27">
+            <rect id="topLeft" width="9" height="9" fill="currentColor"></rect>
+            <rect id="bottomLeft" y="18" width="9" height="9" fill="currentColor"> </rect>
+            <rect id="topRight" x="18" width="9" height="9" fill="currentColor"></rect>
+            <rect id="center" x="9" y="9" width="9" height="9" fill="currentColor"></rect>
+    </svg>
+        <a class="welcomeNav" onclick="window.location.href='/#welcome'">WELCOME</a>
+        <a onclick="window.location.href='/#about'">ABOUT</a>
+        <a onclick="window.location.href='/#projects'">PROJECTS</a>
+        <a onclick="window.location.href='/#contact'">CONTACT</a>
+    </div>
+    <p class="gameName">WEIRDSNAKE</p>
+
+<canvas id="viewport" width="1656" height="480"></canvas>
+</body>
+<script>
+    window.addEventListener('mousemove', (e) => {
+        const keyframes = [
+            { top: `${e.clientY - 10}px` },
+            { left: `${e.clientX - 10}px` },
+        ];
+        document.getElementById('cursor').style.top = `${e.clientY - 10}px`
+        document.getElementById('cursor').style.left = `${e.clientX - 10}px`
+        document.getElementById('cursor').animate(keyframes, {duration: 200, fill: "forwards"})
+        
+    })
+</script>
+</html>
